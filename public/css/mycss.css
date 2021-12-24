@@ -1,0 +1,17 @@
+body::before {
+	display: block;
+	content: "";
+	height: 60px;
+}
+
+.deepColor {
+	background-color: #0f0030;
+}
+
+.lightColor {
+	background-color: #4b0082;
+}
+
+.colorLight {
+	color: #4b0082;
+}
