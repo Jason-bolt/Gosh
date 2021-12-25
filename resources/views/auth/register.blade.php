@@ -64,7 +64,7 @@
             <div class="mt-4">
                 <x-label for="image" :value="__('Profile picture')" />
 
-                <x-input id="image" class="block mt-1 w-full" type="file" name="image" :value="old('image')" />
+                <x-input id="profile_image" class="block mt-1 w-full" type="file" name="profile_image" :value="old('profile_image')" />
             </div>
 
             <div class="flex items-center justify-end mt-4">

@@ -23,6 +23,10 @@
         crossorigin="anonymous"
     />
 
+    {{--      IziToast Link --}}
+    <link rel="stylesheet" href="{{ asset('iziToast/css/iziToast.min.css') }}">
+    <script src="{{ asset('iziToast/js/iziToast.min.js') }}"></script>
+
     <link rel="stylesheet" href="{{ asset('css/mycss.css') }}" />
 </head>
 <body>
@@ -74,7 +78,7 @@
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
                                 @method('post')
-                                <button class="btn nav-link">Logout</button>
+                                <button class="btn nav-link pb-0 pt-1.5">Logout</button>
                             </form>
                         </li>
                     @else
@@ -149,5 +153,49 @@
         <p class="text-center m-0 pb-2">Copyright &copy; GotSkillsHub 2022</p>
     </div>
 </section>
+
+{{-- Toast --}}
+<script>
+    @if (session('success'))
+    iziToast.success({
+        // theme: 'dark',
+        title: 'Great',
+        message: '{{ session('success') }}',
+        position: 'bottomRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+        backgroundColor: '#4b0082',
+        progressBarColor: 'rgb(255,255,255)',
+        titleColor: '#ffffff',
+        messageColor: '#ffffff',
+    });
+    @endif
+
+    @if (session('notice'))
+    iziToast.success({
+        // theme: 'dark',
+        message: '{{ session('notice') }}',
+        position: 'bottomRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+        backgroundColor: '#4b0082',
+        progressBarColor: 'rgb(255,255,255)',
+        titleColor: '#ffffff',
+        messageColor: '#ffffff',
+    });
+    @endif
+
+    @if ($errors->any())
+    iziToast.error({
+        // theme: 'dark',
+        title: 'Fail',
+        message: 'Invalid input, try again.',
+        position: 'bottomRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+        progressBarColor: 'rgb(255,255,255)',
+        titleColor: '#ffffff',
+        messageColor: '#ffffff',
+    });
+    @endif
+
+</script>
+
 </body>
 </html>
+
+

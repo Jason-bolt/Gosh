@@ -30,7 +30,17 @@ Route::get('/terms', [Controller::class, 'terms'])->name('terms');
 //    return view('dashboard');
 //})->middleware(['auth'])->name('dashboard');
 
-Route::get('/profile', [ProfileController::class, 'index'])->middleware(['auth'])->name('profile');
+Route::get('/profile', [ProfileController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('profile');
+
+Route::post('/edit_profile', [ProfileController::class, 'edit'])
+    ->middleware(['auth'])
+    ->name('edit_profile');
+
+Route::post('/clear_image', [ProfileController::class, 'clear_image'])
+    ->middleware(['auth'])
+    ->name('clear_image');
 
 
 

@@ -9,36 +9,25 @@
                 <div class="col-md">
                     <h3 class="mb-4">My businesses</h3>
                     <div class="row g-4">
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="card shadow-sm">
-                                <img
-                                    src="{{ asset('images/default/business_image25.jpeg') }}"
-                                    class="img-fluid"
-                                    alt="Business"
-                                />
-                                <div class="card-body text-center">
-                                    <div class="card-title">Name of Business</div>
-                                    <a href="#" class="lightColor text-white btn rounded-pill"
-                                    >View details</a
-                                    >
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="card shadow-sm">
-                                <img
-                                    src="{{ asset('images/default/business_image25.jpeg') }}"
-                                    class="img-fluid"
-                                    alt="Business"
-                                />
-                                <div class="card-body text-center">
-                                    <div class="card-title">Name of Business</div>
-                                    <a href="#" class="lightColor text-white btn rounded-pill"
-                                    >View details</a
-                                    >
-                                </div>
-                            </div>
-                        </div>
+
+{{--                        <div class="col-lg-4 col-md-6 col-sm-6">--}}
+{{--                            <div class="card shadow-sm">--}}
+{{--                                <img--}}
+{{--                                    src="{{ asset('images/default/business_image25.jpeg') }}"--}}
+{{--                                    class="img-fluid"--}}
+{{--                                    alt="Business"--}}
+{{--                                />--}}
+{{--                                <div class="card-body text-center">--}}
+{{--                                    <div class="card-title">Name of Business</div>--}}
+{{--                                    <a href="#" class="lightColor text-white btn rounded-pill"--}}
+{{--                                    >View details</a--}}
+{{--                                    >--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+
+                    <!-- No business added -->
+                    <p class="lead my-5">No business added yet.</p>
 
                     </div>
                     <!-- Add business button -->
@@ -168,27 +157,35 @@
                         </form>
                     </div>
                 </div>
+{{--                #######################################  --}}
                 <!-- Owner details -->
                 <div class="col-md-4 col-sm-6">
                     <div class="card">
                         <img
-                            src="{{ asset('images/default/owner_image1.jpg') }}"
+                            src="{{ $user['image'] == 'null' ? asset('images/default/default_image.png') : asset('images/owners/' . $user['image']) }}"
                             class="img-fluid rounded-circle mx-auto mt-2"
                             alt="User"
                             width="190"
                         />
+
                         <div class="card-body">
+                           @if($user['image'] != 'null')
+                                <form action="{{ route('clear_image') }}" method="POST">
+                                    @csrf
+                                    <button class="btn lightColor text-white p-1 rounded-pill px-2"><small>Clear Image <i class="bi bi-image"></i></small></button>
+                                </form>
+                            @endif
                             <div class="card-tile">
-                                <p class="h5">Owner's name</p>
+                                <p class="h5">{{ $user['first_name'] . ' ' . $user['last_name']}}</p>
                             </div>
                             <!-- Contact info -->
                             <div class="mt-2">
                                 <p class="mb-0">
                                     <i class="bi bi-envelope"></i>
-                                    <small>example@email.com</small>
+                                    <small>{{ $user['email'] }}</small>
                                 </p>
                                 <p class="mb-0">
-                                    <i class="bi bi-telephone"></i> <small>0123456789</small>
+                                    <i class="bi bi-telephone"></i> <small>{{ $user['phone'] }}</small>
                                 </p>
                             </div>
                             <!-- Edit Profile Button -->
@@ -204,11 +201,14 @@
                             <div class="collapse my-3" id="editProfile">
                                 <form
                                     onsubmit="return validate_edit_profile()"
-                                    action="#"
+                                    action="{{ route('edit_profile') }}"
                                     class="form"
                                     method="POST"
                                     enctype="multipart/form-data"
                                 >
+                                    @csrf
+                                    @method('post')
+
                                     <div class="form-group mb-2">
                                         <label>Profile picture</label>
                                         <input
@@ -227,7 +227,8 @@
                                             class="form-control"
                                             name="first_name"
                                             id="first_name"
-                                            value="Fname"
+                                            value="{{ $user['first_name'] }}"
+                                            required
                                         />
                                     </div>
 
@@ -238,7 +239,8 @@
                                             class="form-control"
                                             name="last_name"
                                             id="last_name"
-                                            value="Lname"
+                                            value="{{ $user['last_name'] }}"
+                                            required
                                         />
                                     </div>
 
@@ -249,7 +251,7 @@
                                             class="form-control"
                                             name="phone"
                                             id="phone"
-                                            value="0123456789"
+                                            value="{{ $user['phone'] }}"
                                         />
                                     </div>
 
@@ -260,7 +262,7 @@
                                             class="form-control"
                                             name="email"
                                             id="email"
-                                            value="example@email.com"
+                                            value="{{ $user['email'] }}"
                                         />
                                     </div>
 
@@ -321,3 +323,44 @@
         </div>
     </section>
 @endsection
+
+
+<script>
+    function validate_form() {
+        var business_name = document.getElementById("business_name").value;
+        var business_description = document.getElementById(
+            "business_description"
+        ).value;
+        var business_brief = document.getElementById("business_brief").value;
+        var business_industry = document.getElementById("business_industry").value;
+        var business_location = document.getElementById("business_location").value;
+
+        if (
+            business_name.trim() == "" ||
+            business_description.trim() == "" ||
+            business_brief.trim() == ""
+        ) {
+            alert("All fields must be filled!");
+            return false;
+        }
+        return true;
+    }
+
+    function validate_edit_profile() {
+        var first_name = document.getElementById("first_name").value;
+        var last_name = document.getElementById("last_name").value;
+        var phone = document.getElementById("phone").value;
+        var email = document.getElementById("email").value;
+
+        if (
+            first_name.trim() == "" ||
+            last_name.trim() == "" ||
+            phone.trim() == "" ||
+            email.trim() == ""
+        ) {
+            alert("Profile information can not be blank!");
+            return false;
+        }
+        return true;
+    }
+</script>

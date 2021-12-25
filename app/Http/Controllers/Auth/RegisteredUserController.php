@@ -34,7 +34,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
 //        dd($request);
-        if ($request->image != null ) // Registering with profile picture
+        if ($request->profile_image != null ) // Registering with profile picture
         {
             $request->validate([
                 'fname' => ['required', 'string', 'max:50'],
@@ -42,7 +42,7 @@ class RegisteredUserController extends Controller
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'phone' => ['required', 'string', 'max:25'],
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
-                'image' => ['required', 'mimes:jpg,png,jpeg,gif', 'max:5048'],
+                'profile_image' => ['required', 'mimes:jpg,png,jpeg,gif', 'max:5048'],
             ]);
 
             $user = User::create([
