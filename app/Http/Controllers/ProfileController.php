@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Skills;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -12,17 +13,22 @@ class ProfileController extends Controller
     {
 
         $user = Auth::user();
+        $id = Auth::id();
+
+        $skills = Skills::where('user_id', $id)
+            ->get();
 
         $page = 'profile';
         return view('owners.profile_businesses')->with([
             'page' => $page,
-            'user' => $user
+            'user' => $user,
+            'skills' => $skills
         ]);
     }
 
     public function edit (Request $request)
     {
-        $user = Auth::user();
+
         $id = Auth::id();
 
         if ($request->profile_image == null)
@@ -79,5 +85,30 @@ class ProfileController extends Controller
             ]);
 
         return back()->with('notice', 'Image cleared!');
+    }
+
+    public function add_skill (Request $request)
+    {
+        $id = Auth::id();
+        $request->validate([
+            'skill' => ['required', 'string']
+        ]);
+
+//        dd($id);
+
+        Skills::create([
+            'user_id' => $id,
+            'skill' => $request->skill,
+        ]);
+
+        return back()->with('success', 'Skill has been added.');
+    }
+
+    public function delete_skill ($id)
+    {
+        Skills::where('id', $id)
+            ->delete();
+
+        return back()->with('notice', 'Skill deleted.');
     }
 }

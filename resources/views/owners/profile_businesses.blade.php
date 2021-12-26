@@ -207,7 +207,7 @@
                                     enctype="multipart/form-data"
                                 >
                                     @csrf
-                                    @method('post')
+                                    @method('put')
 
                                     <div class="form-group mb-2">
                                         <label>Profile picture</label>
@@ -287,7 +287,9 @@
                                     Add skill <i class="bi bi-plus-lg"></i>
                                 </button>
                                 <div class="collapse mt-2" id="addSkill">
-                                    <form action="#" class="mb-3">
+                                    <form action="{{ route('add_skill') }}" method="POST" class="mb-3">
+                                        @csrf
+                                        @method('post')
                                         <input
                                             type="text"
                                             name="skill"
@@ -299,22 +301,21 @@
                                         <button class="btn text-white lightColor">Add</button>
                                     </form>
                                 </div>
-                                <div class="d-flex justify-content-between">
-                                    <p class="mb-0">Skill</p>
-                                    <form action="#">
-                                        <button class="btn p-0">
-                                            <i class="bi bi-trash text-danger"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <p class="mb-0">Skill</p>
-                                    <form action="#">
-                                        <button class="btn p-0">
-                                            <i class="bi bi-trash text-danger"></i>
-                                        </button>
-                                    </form>
-                                </div>
+                                @forelse($skills as $skill)
+                                    <div class="d-flex justify-content-between">
+                                        <p class="mb-0">{{ $skill['skill'] }}</p>
+                                        <form action="/delete_skill/{{ $skill['id'] }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button class="btn p-0">
+                                                <i class="bi bi-trash text-danger"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                @empty
+                                    <p>No Skill added yet.</p>
+                                @endforelse
+
                             </div>
                         </div>
                     </div>

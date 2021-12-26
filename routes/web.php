@@ -34,13 +34,21 @@ Route::get('/profile', [ProfileController::class, 'index'])
     ->middleware(['auth'])
     ->name('profile');
 
-Route::post('/edit_profile', [ProfileController::class, 'edit'])
+Route::put('/edit_profile', [ProfileController::class, 'edit'])
     ->middleware(['auth'])
     ->name('edit_profile');
 
 Route::post('/clear_image', [ProfileController::class, 'clear_image'])
     ->middleware(['auth'])
     ->name('clear_image');
+
+Route::post('/add_skill', [ProfileController::class, 'add_skill'])
+    ->middleware(['auth'])
+    ->name('add_skill');
+
+Route::delete('/delete_skill/{id}', [ProfileController::class, 'delete_skill'])
+    ->middleware(['auth'])
+    ->name('delete_skill');
 
 
 
