@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Businesses;
 use App\Models\Skills;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -110,5 +111,35 @@ class ProfileController extends Controller
             ->delete();
 
         return back()->with('notice', 'Skill deleted.');
+    }
+
+    public function add_business (Request $request)
+    {
+        $id = Auth::id();
+//        dd($request);
+        $request->validate([
+            'business_image' => ['required', 'mimes:jpg,png,jpeg,gif', 'max:5048'],
+            'business_name' => ['required', 'string', 'max:255'],
+            'business_description' => ['required', 'string', 'max:1024'],
+            'business_brief' => ['required', 'string', 'max:255'],
+            'business_industry' => ['required', 'integer'],
+            'business_location' => ['required', 'string', 'max:255']
+        ]);
+
+        $edited_business_name = str_replace(' ', '_', $request->business_name);
+        $business_image = time() . '-' . $edited_business_name . '.' . $request->business_image->extension();
+        $request->business_image->move(public_path('images/businesses'));
+
+        Businesses::create([
+            'business_name' => $request->business_name,
+            'industry_id' => $request->business_industry,
+            'business_image' => $business_image,
+            'business_location' => $request->business_location,
+            'business_description' => $request->business_description,
+            'user_id' => $id
+        ]);
+
+        return back()->with('success', 'Business created successfully.');
+
     }
 }

@@ -50,6 +50,10 @@ Route::delete('/delete_skill/{id}', [ProfileController::class, 'delete_skill'])
     ->middleware(['auth'])
     ->name('delete_skill');
 
+Route::post('/add_business', [ProfileController::class, 'add_business'])
+    ->middleware(['auth'])
+    ->name('add_business');
+
 
 
 require __DIR__.'/auth.php';

@@ -47,10 +47,12 @@
                         <form
                             class="form mb-5"
                             onsubmit="return validate_form()"
-                            action="#"
+                            action="{{ route('add_business') }}"
                             method="POST"
                             enctype="multipart/form-data"
                         >
+                            @csrf
+                            @method('post')
                             <div class="form-group mb-3">
                                 <label>Business image *</label>
                                 <small style="color: rgb(75, 0, 130)">
