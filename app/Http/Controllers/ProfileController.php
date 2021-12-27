@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Businesses;
+use App\Models\Industries;
 use App\Models\Skills;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -18,12 +19,15 @@ class ProfileController extends Controller
 
         $skills = Skills::where('user_id', $id)
             ->get();
+        $industries = Industries::where('industry', '!=', 'all industries')
+            ->get();
 
         $page = 'profile';
         return view('owners.profile_businesses')->with([
             'page' => $page,
             'user' => $user,
-            'skills' => $skills
+            'skills' => $skills,
+            'industries' => $industries
         ]);
     }
 
@@ -127,13 +131,13 @@ class ProfileController extends Controller
         ]);
 
         $edited_business_name = str_replace(' ', '_', $request->business_name);
-        $business_image = time() . '-' . $edited_business_name . '.' . $request->business_image->extension();
-        $request->business_image->move(public_path('images/businesses'));
+        $business_image_name = time() . '-' . $edited_business_name . '.' . $request->business_image->extension();
+        $request->business_image->move(public_path('images/businesses'), $business_image_name);
 
         Businesses::create([
             'business_name' => $request->business_name,
             'industry_id' => $request->business_industry,
-            'business_image' => $business_image,
+            'business_image' => $business_image_name,
             'business_location' => $request->business_location,
             'business_description' => $request->business_description,
             'user_id' => $id

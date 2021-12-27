@@ -10,24 +10,26 @@
                     <h3 class="mb-4">My businesses</h3>
                     <div class="row g-4">
 
-{{--                        <div class="col-lg-4 col-md-6 col-sm-6">--}}
-{{--                            <div class="card shadow-sm">--}}
-{{--                                <img--}}
-{{--                                    src="{{ asset('images/default/business_image25.jpeg') }}"--}}
-{{--                                    class="img-fluid"--}}
-{{--                                    alt="Business"--}}
-{{--                                />--}}
-{{--                                <div class="card-body text-center">--}}
-{{--                                    <div class="card-title">Name of Business</div>--}}
-{{--                                    <a href="#" class="lightColor text-white btn rounded-pill"--}}
-{{--                                    >View details</a--}}
-{{--                                    >--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-
-                    <!-- No business added -->
-                    <p class="lead my-5">No business added yet.</p>
+                        @forelse($user->user_businesses as $business)
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="card shadow-sm hover:bg-gray-700">
+                                    <img
+                                        src="{{ asset('images/businesses/' . $business['business_image']) }}"
+                                        class="img-fluid"
+                                        alt="Business"
+                                    />
+                                    <div class="card-body text-center">
+                                        <div class="card-title">Name of Business</div>
+                                        <a href="#" class="lightColor text-white btn rounded-pill"
+                                        >View details</a
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <!-- No business added -->
+                            <p class="lead my-5">No business added yet.</p>
+                        @endforelse
 
                     </div>
                     <!-- Add business button -->
@@ -116,22 +118,25 @@
                             <div class="form-group mb-3">
                                 <label>Industry *</label>
                                 <select
-                                    class="form-control"
+                                    class="form-control text-capitalize"
                                     name="business_industry"
                                     id="business_industry"
                                     required
                                 >
-                                    <option value="1">Food service</option>
-                                    <option value="2">
-                                        Advertisement, media and communication
-                                    </option>
-                                    <option value="3">Entertainment, events and sports</option>
-                                    <option value="4">Healthcare</option>
-                                    <option value="5">Hospitality, hostel and hotel</option>
-                                    <option value="6">IT and telecoms</option>
-                                    <option value="7">Retail, fashion and FMCG</option>
-                                    <option value="8">Education</option>
-                                    <option value="9">Writing and translation</option>
+                                    @foreach($industries as $industry)
+                                        <option value="{{ $industry['id'] }}">{{ $industry['industry'] }}</option>
+                                    @endforeach
+{{--                                    <option value="1">Food service</option>--}}
+{{--                                    <option value="2">--}}
+{{--                                        Advertisement, media and communication--}}
+{{--                                    </option>--}}
+{{--                                    <option value="3">Entertainment, events and sports</option>--}}
+{{--                                    <option value="4">Healthcare</option>--}}
+{{--                                    <option value="5">Hospitality, hostel and hotel</option>--}}
+{{--                                    <option value="6">IT and telecoms</option>--}}
+{{--                                    <option value="7">Retail, fashion and FMCG</option>--}}
+{{--                                    <option value="8">Education</option>--}}
+{{--                                    <option value="9">Writing and translation</option>--}}
                                 </select>
                             </div>
 

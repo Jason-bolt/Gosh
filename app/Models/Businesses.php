@@ -10,4 +10,9 @@ class Businesses extends Model
     use HasFactory;
 
     protected $fillable = ['business_name', 'industry_id', 'business_image', 'business_location', 'business_description', 'user_id'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
