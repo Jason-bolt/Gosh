@@ -150,13 +150,7 @@ class ProfileController extends Controller
 
     public function profile_business_details($business_id)
     {
-        $business = Businesses::where('id', $business_id)->first();
-//        dd($business);
-        if ($business == null)
-        {
-            return redirect(route('404Page'));
-        }
-
+        $business = Businesses::where('id', $business_id)->firstOrFail();
         $user = Auth::user();
         $id = Auth::id();
 

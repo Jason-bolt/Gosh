@@ -28,28 +28,24 @@
         <div class="container">
             <h3 class="mb-4">Recently Added Businesses</h3>
             <div class="row g-4">
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-sm">
-                        <img src="{{ asset('images/default/business_image25.jpeg') }}" alt="Business" />
-                        <div class="card-body text-center">
-                            <div class="card-title">Name of Business</div>
-                            <a href="#" class="lightColor text-white btn rounded-pill"
-                            >View details</a
-                            >
+                @forelse($businesses as $business)
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card hover:text-gray-100 shadow-sm">
+                            <img src="{{ asset('images/businesses/' . $business->business_image) }}" alt="Business" style="height: 200px;" />
+                            <div class="card-body text-center">
+                                <div class="card-title"><strong>{{ $business->business_name }}</strong></div>
+                                <p class="card-text">
+                                    {{ substr($business->business_brief, 0, 50) . '...' }}
+                                </p>
+                                <a href="/businesses/{{ $business->id }}" class="lightColor text-white btn rounded-pill"
+                                >View details <i class="bi bi-chevron-right"></i></a
+                                >
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-sm">
-                        <img src="{{ asset('images/default/business_image25.jpeg') }}" alt="Business" />
-                        <div class="card-body text-center">
-                            <div class="card-title">Name of Business</div>
-                            <a href="#" class="lightColor text-white btn rounded-pill"
-                            >View details</a
-                            >
-                        </div>
-                    </div>
-                </div>
+                @empty
+                    <p class="my-5">No businesses added yet.</p>
+                @endforelse
 
             </div>
         </div>

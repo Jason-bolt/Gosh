@@ -17,11 +17,15 @@
                                         src="{{ asset('images/businesses/' . $business['business_image']) }}"
                                         class="img-fluid"
                                         alt="Business"
+                                        style="height: 200px;"
                                     />
                                     <div class="card-body text-center">
-                                        <div class="card-title">Name of Business</div>
+                                        <div class="card-title"><strong>{{ $business->business_name }}</strong></div>
+                                        <p class="card-text">
+                                            {{ substr($business->business_brief, 0, 50) . '...' }}
+                                        </p>
                                         <a href="/profile/my_business/{{ $business['id'] }}" class="lightColor text-white btn rounded-pill"
-                                        >View details</a>
+                                        >View details <i class="bi bi-chevron-right"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -83,6 +87,7 @@
                                     name="business_name"
                                     id="business_name"
                                     class="form-control"
+                                    value="{{ old('business_name') }}"
                                     required
                                 />
                                 @if ($errors->has('business_name'))
@@ -100,6 +105,7 @@
                                     id="business_description"
                                     class="form-control"
                                     rows="5"
+                                    value="{{ old('business_description') }}"
                                     required
                                 ></textarea>
                                 @if ($errors->has('business_description'))
@@ -119,6 +125,7 @@
                                     name="business_brief"
                                     id="business_brief"
                                     class="form-control"
+                                    value="{{ old('business_brief') }}"
                                     required
                                 />
                                 <small class="text-danger"
@@ -151,6 +158,7 @@
                                     id="business_location"
                                     class="form-control"
                                     placeholder="Business location"
+                                    value="{{ old('business_location') }}"
                                     required
                                 />
                                 <small style="color: #999"
