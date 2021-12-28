@@ -26,6 +26,11 @@ Route::get('/contact', [Controller::class, 'contact'])->name('contact');
 Route::get('/faqs', [Controller::class, 'faqs'])->name('faqs');
 Route::get('/terms', [Controller::class, 'terms'])->name('terms');
 
+Route::get('/pageNotFound', function ()
+    {
+        return view('errors.404');
+    })->name('404Page');
+
 //Route::get('/dashboard', function () {
 //    return view('dashboard');
 //})->middleware(['auth'])->name('dashboard');
@@ -53,6 +58,15 @@ Route::delete('/delete_skill/{id}', [ProfileController::class, 'delete_skill'])
 Route::post('/add_business', [ProfileController::class, 'add_business'])
     ->middleware(['auth'])
     ->name('add_business');
+
+Route::get('/profile/my_business/{id}', [ProfileController::class, 'profile_business_details'])
+    ->middleware(['auth']);
+
+Route::put('/profile/my_business/{id}', [ProfileController::class, 'update_business'])
+    ->middleware(['auth']);
+
+Route::delete('/profile/my_business/{id}', [ProfileController::class, 'delete_business'])
+    ->middleware(['auth']);
 
 
 

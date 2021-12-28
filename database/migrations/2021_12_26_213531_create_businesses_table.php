@@ -20,6 +20,7 @@ class CreateBusinessesTable extends Migration
             $table->text('business_image');
             $table->text('business_location');
             $table->text('business_description');
+            $table->text('business_brief');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('accepted')->nullable();
             $table->foreign('industry_id')

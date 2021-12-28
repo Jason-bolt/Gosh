@@ -9,10 +9,15 @@ class Businesses extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['business_name', 'industry_id', 'business_image', 'business_location', 'business_description', 'user_id'];
+    protected $fillable = ['business_name', 'industry_id', 'business_image', 'business_location', 'business_description', 'business_brief', 'user_id'];
 
-    public function user()
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function business_industry(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Industries::class);
     }
 }

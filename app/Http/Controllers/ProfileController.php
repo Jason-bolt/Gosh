@@ -140,10 +140,101 @@ class ProfileController extends Controller
             'business_image' => $business_image_name,
             'business_location' => $request->business_location,
             'business_description' => $request->business_description,
+            'business_brief' => $request->business_brief,
             'user_id' => $id
         ]);
 
         return back()->with('success', 'Business created successfully.');
 
+    }
+
+    public function profile_business_details($business_id)
+    {
+        $business = Businesses::where('id', $business_id)->first();
+//        dd($business);
+        if ($business == null)
+        {
+            return redirect(route('404Page'));
+        }
+
+        $user = Auth::user();
+        $id = Auth::id();
+
+        $skills = Skills::where('user_id', $id)
+            ->get();
+        $industries = Industries::where('industry', '!=', 'all industries')
+            ->get();
+        $business_industry = Industries::where('id', $business->industry_id)->first();
+//        dd($business_industry);
+
+        $page = 'profile';
+        return view('owners.profile_business')->with([
+            'page' => $page,
+            'user' => $user,
+            'skills' => $skills,
+            'industries' => $industries,
+            'business_industry' => $business_industry,
+            'business' => $business
+        ]);
+    }
+
+    public function update_business (Request $request, $id)
+    {
+//        dd($request->business_image);
+//        dd($id);
+
+        if ($request->business_image == null)
+        {
+            $request->validate([
+                'business_name' => ['required', 'string', 'max:255'],
+                'business_description' => ['required', 'string', 'max:1024'],
+                'business_brief' => ['required', 'string', 'max:255'],
+                'business_industry' => ['required', 'integer'],
+                'business_location' => ['required', 'string', 'max:255']
+            ]);
+
+            Businesses::where('id', $id)
+                ->update([
+                    'business_name' => $request->business_name,
+                    'industry_id' => $request->business_industry,
+                    'business_location' => $request->business_location,
+                    'business_description' => $request->business_description,
+                    'business_brief' => $request->business_brief
+                ]);
+        }else{
+            $request->validate([
+                'business_image' => ['required', 'mimes:jpg,png,jpeg,gif', 'max:5048'],
+                'business_name' => ['required', 'string', 'max:255'],
+                'business_description' => ['required', 'string', 'max:1024'],
+                'business_brief' => ['required', 'string', 'max:255'],
+                'business_industry' => ['required', 'integer'],
+                'business_location' => ['required', 'string', 'max:255']
+            ]);
+
+            $edited_business_name = str_replace(' ', '_', $request->business_name);
+            $business_image_name = time() . '-' . $edited_business_name . '.' . $request->business_image->extension();
+            $request->business_image->move(public_path('images/businesses'), $business_image_name);
+
+            Businesses::where('id', $id)
+                ->update([
+                    'business_name' => $request->business_name,
+                    'industry_id' => $request->business_industry,
+                    'business_image' => $business_image_name,
+                    'business_location' => $request->business_location,
+                    'business_description' => $request->business_description,
+                    'business_brief' => $request->business_brief
+                ]);
+        }
+
+        return back()->with('success', 'Business updated successfully.');
+    }
+
+    public function delete_business ($id)
+    {
+//        dd($id);
+        Businesses::where('id', $id)
+            ->delete();
+
+        return redirect(route('profile'))->with('notice', 'Business deleted.');
     }
 }

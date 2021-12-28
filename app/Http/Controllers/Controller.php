@@ -58,4 +58,5 @@ class Controller extends BaseController
             'page' => $page
         ]);
     }
+
 }
