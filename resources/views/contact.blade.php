@@ -7,7 +7,9 @@
             <h2 class="text-center">Send us a message</h2>
             <div class="row">
                 <div class="col-md-10 col-lg-8 m-auto">
-                    <form action="#" class="form">
+                    <form action="{{ route('sendMail') }}" method="POST" class="form">
+                        @csrf
+                        @method('post')
                         <!-- Name -->
                         <div>
                             <label class="text-secondary text-start py-2">Name*</label>
@@ -59,11 +61,11 @@
                                 class="form-control mb-3"
                             ></textarea>
                         </div>
-                        <input
-                            class="btn lightColor text-white mt-4 py-2"
-                            value="SUBMIT"
-                            name="contact_submit"
-                        />
+
+                        <button class="btn lightColor text-white mt-4 py-2 px-5">
+                            SUBMIT
+                        </button>
+
                     </form>
                 </div>
             </div>

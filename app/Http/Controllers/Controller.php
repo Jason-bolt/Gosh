@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Contact;
 use App\Models\Businesses;
 use App\Models\Industries;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Mail;
 
 class Controller extends BaseController
 {
@@ -29,9 +32,11 @@ class Controller extends BaseController
     {
         $page = 'businesses';
         $businesses = Businesses::all();
+        $industries = Industries::all();
         return view('businesses')->with([
             'page' => $page,
-            'businesses' => $businesses
+            'businesses' => $businesses,
+            'industries' => $industries
         ]);
     }
 
@@ -76,6 +81,41 @@ class Controller extends BaseController
         $page = 'terms';
         return view('terms')->with([
             'page' => $page
+        ]);
+    }
+
+    public function sendMail (Request $request)
+    {
+        $contactData = $request->validate(
+            [
+                'first_name' => ['required', 'string', 'max:30'],
+                'last_name' => ['required', 'string', 'max:30'],
+                'email' => ['required', 'string', 'email', 'max:255'],
+                'message' => ['required', 'string']
+            ]
+        );
+
+        if ($contactData) {
+            Mail::send(new Contact($contactData));
+            return back()->with('notice', 'Message sent successfully!');
+        }
+
+        return back();
+    }
+
+    public function search (Request $query)
+    {
+        $search_query = $query->search_query;
+
+        $businesses = Businesses::where('business_name', 'LIKE', '%' . $search_query . '%')->get();
+        $industries = Industries::all();
+
+        $page = 'businesses';
+        return view('businesses')->with([
+            'page' => $page,
+           'businesses' => $businesses,
+            'query' => $search_query,
+            'industries' => $industries
         ]);
     }
 

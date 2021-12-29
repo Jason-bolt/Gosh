@@ -4,12 +4,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Got skills hub</title>
+    <title>GOSH - {{ $page }}</title>
+    <link rel="shortcut icon" type="image/jpg" href="{{ asset('images/default/new_brand_logo.png') }}"/>
 
     <link
         rel="stylesheet"
         href="{{ asset('bootstrap-5.0.2-dist/css/bootstrap.min.css') }}"
     />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <link
         rel="stylesheet"
         href="{{ asset('bootstrap-5.0.2-dist/css/bootstrap.css') }}"
@@ -96,7 +98,9 @@
 <!-- Search bar -->
 <section class="shadow {{ $page == 'faq' || $page == 'terms' ? 'd-none' : '' }}">
     <div class="container py-3 text-center">
-        <form class="row">
+        <form class="row" action="{{ route('search') }}" method="GET">
+            @csrf
+            @method('get')
             <div class="col-lg-8 col-md-10 m-auto">
                 <div class="row g-2">
                     <div class="col">
@@ -106,11 +110,12 @@
                             id="search_query"
                             name="search_query"
                             placeholder="Search for business..."
+{{--                            value="{{ old('search_query') }}"--}}
                         />
                     </div>
                     <div class="col-sm-auto">
                         <button
-                            type="button"
+                            type="submit"
                             class="btn lightColor text-white text-capitalize"
                         >
                             Search

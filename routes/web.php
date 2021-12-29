@@ -21,8 +21,11 @@ use App\Http\Controllers\ProfileController;
 
 Route::get('/', [Controller::class, 'index'])->name('home');
 Route::get('/businesses', [Controller::class, 'businesses'])->name('businesses');
+//Route::get('/businesses/search?q={query}', [Controller::class, 'search']);
 Route::get('/businesses/{id}', [Controller::class, 'business_details']);
 Route::get('/contact', [Controller::class, 'contact'])->name('contact');
+Route::post('/contact', [Controller::class, 'sendMail'])->name('sendMail');
+Route::get('/search', [Controller::class, 'search'])->name('search');
 Route::get('/faqs', [Controller::class, 'faqs'])->name('faqs');
 Route::get('/terms', [Controller::class, 'terms'])->name('terms');
 

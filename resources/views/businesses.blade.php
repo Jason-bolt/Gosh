@@ -6,17 +6,10 @@
         <div class="container">
             <form action="#" class="row">
                 <div class="col-lg-6 col-md-9">
-                    <select class="form-control" name="industry" id="industry">
-                        <option value="0">All Industries</option>
-                        <option value="1">Food service</option>
-                        <option value="2">Advertisement, media and communication</option>
-                        <option value="3">Entertainment, events and sports</option>
-                        <option value="4">Healthcare</option>
-                        <option value="5">Hospitality, hostel and hotel</option>
-                        <option value="6">IT and telecoms</option>
-                        <option value="7">Retail, fashion and FMCG</option>
-                        <option value="8">Education</option>
-                        <option value="9">Writing and translation</option>
+                    <select class="form-control text-capitalize" name="industry" id="industry" onselect="fetchBusinesses()">
+                        @foreach($industries as $industry)
+                            <option value="{{ $industry->id }}">{{ $industry->industry }}</option>
+                        @endforeach
                     </select>
                 </div>
             </form>
@@ -26,7 +19,11 @@
     <!-- Business Cards -->
     <section class="p-md-5 py-4">
         <div class="container">
-            <h3 class="mb-4">Recently Added Businesses</h3>
+            @if(!isset($query))
+                <h3 class="mb-4">Recently Added Businesses</h3>
+            @else
+                <h3 class="mb-4">Results for query: <em>{{ $query }}</em></h3>
+            @endif
             <div class="row g-4">
                 @forelse($businesses as $business)
                     <div class="col-lg-3 col-md-6">
@@ -44,10 +41,41 @@
                         </div>
                     </div>
                 @empty
-                    <p class="my-5">No businesses added yet.</p>
+                    @if(!isset($query))
+                        <p class="my-5">No businesses added yet.</p>
+                    @else
+                        <p class="my-5">No businesses for search query: <em>{{ $query }}</em></p>
+                    @endif
                 @endforelse
 
             </div>
         </div>
     </section>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#industry").change(function () {
+                console.log($(this).val());
+                $.ajax({
+                    url: "{{ route }}"
+                });
+            });
+
+            function fetchBusinesses(industry)
+            {
+                $.ajax({
+                    type: "GET",
+                    url: "/businesses/" + industry,
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
+
+        });
+    </script>
+
+
 @endsection

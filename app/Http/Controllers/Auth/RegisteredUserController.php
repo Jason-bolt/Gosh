@@ -45,12 +45,15 @@ class RegisteredUserController extends Controller
                 'profile_image' => ['required', 'mimes:jpg,png,jpeg,gif', 'max:5048'],
             ]);
 
+            $profile_pic = time() . '-' . $request->fname . '.' .$request->profile_image->extension();
+            $request->profile_image->move(public_path('images/owners'), $profile_pic);
+
             $user = User::create([
                 'first_name' => $request->fname,
                 'last_name' => $request->lname,
                 'email' => $request->email,
                 'phone' => $request->phone,
-                'image' => $request->image,
+                'image' => $profile_pic,
                 'password' => Hash::make($request->password),
             ]);
         }else{
@@ -63,7 +66,6 @@ class RegisteredUserController extends Controller
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
             ]);
 
-//            dd($request->fname);
 
             $user = User::create([
                 'first_name' => $request->fname,
@@ -75,18 +77,11 @@ class RegisteredUserController extends Controller
             ]);
         }
 
-//        $user = User::create([
-//            'first_name' => $request->fname,
-//            'last_name' => $request->lname,
-//            'email' => $request->email,
-//            'phone' => $request->phone,
-//            'password' => Hash::make($request->password),
-//        ]);
-
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(route('verification.notice'));
+//        return redirect(RouteServiceProvider::HOME);
     }
 }
