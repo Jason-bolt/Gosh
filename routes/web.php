@@ -21,7 +21,8 @@ use App\Http\Controllers\ProfileController;
 
 Route::get('/', [Controller::class, 'index'])->name('home');
 Route::get('/businesses', [Controller::class, 'businesses'])->name('businesses');
-//Route::get('/businesses/search?q={query}', [Controller::class, 'search']);
+Route::post('/businesses', [Controller::class, 'industry_businesses'])->name('industry_business');
+//Route::get('/businesses/industry/{industry_id}', [Controller::class, 'industry_businesses']);
 Route::get('/businesses/{id}', [Controller::class, 'business_details']);
 Route::get('/contact', [Controller::class, 'contact'])->name('contact');
 Route::post('/contact', [Controller::class, 'sendMail'])->name('sendMail');

@@ -4,13 +4,18 @@
     <!-- Selector -->
     <section class="pt-5">
         <div class="container">
-            <form action="#" class="row">
+            <form action="{{ route('industry_business') }}" method="POST" class="row text-center g-2 g-md-0">
+                @csrf
+                @method('post')
                 <div class="col-lg-6 col-md-9">
-                    <select class="form-control text-capitalize" name="industry" id="industry" onselect="fetchBusinesses()">
+                    <select class="form-control text-capitalize" name="industry_id" id="industry_id">
                         @foreach($industries as $industry)
-                            <option value="{{ $industry->id }}">{{ $industry->industry }}</option>
+                            <option value="{{ $industry->id }}" {{ $industry->id == $selected_industry->id ? 'selected' : ''}}>{{ $industry->industry }}</option>
                         @endforeach
                     </select>
+                </div>
+                <div class="col-md-3 col-12 d-grid d-md-block">
+                    <button type="submit" class="btn lightColor text-white px-4">Go</button>
                 </div>
             </form>
         </div>
@@ -20,7 +25,11 @@
     <section class="p-md-5 py-4">
         <div class="container">
             @if(!isset($query))
-                <h3 class="mb-4">Recently Added Businesses</h3>
+                @if(!isset($selected_industry))
+                    <h3 class="mb-4">All Businesses</h3>
+                @else
+                    <h3 class="mb-4 text-capitalize">{{ $selected_industry->industry }}</h3>
+                @endif
             @else
                 <h3 class="mb-4">Results for query: <em>{{ $query }}</em></h3>
             @endif
@@ -52,30 +61,27 @@
         </div>
     </section>
 
-    <script>
-        $(document).ready(function () {
+{{--    <script>--}}
+{{--        $(document).ready(function () {--}}
 
-            $("#industry").change(function () {
-                console.log($(this).val());
-                $.ajax({
-                    url: "{{ route }}"
-                });
-            });
+{{--            $("#industry").change(function () {--}}
+{{--                const industryId = $(this).val();--}}
+{{--                // console.log($(this).val());--}}
+{{--                $.ajax({--}}
+{{--                    url: "/businesses/industry/" + industryId,--}}
+{{--                    success: function (response)--}}
+{{--                    {--}}
+{{--                        console.log(response.businesses.length);--}}
+{{--                        if (response.businesses.length === 0)--}}
+{{--                        {--}}
 
-            function fetchBusinesses(industry)
-            {
-                $.ajax({
-                    type: "GET",
-                    url: "/businesses/" + industry,
-                    dataType: "json",
-                    success: function (response) {
-                        console.log(response);
-                    }
-                });
-            }
+{{--                        }--}}
+{{--                    }--}}
+{{--                });--}}
+{{--            });--}}
 
-        });
-    </script>
+{{--        });--}}
+{{--    </script>--}}
 
 
 @endsection

@@ -119,4 +119,27 @@ class Controller extends BaseController
         ]);
     }
 
+    public function industry_businesses (Request $request)
+    {
+        $industry_id = $request->industry_id;
+
+        if ($industry_id == 1)
+        {
+            $businesses = Businesses::all();
+        }else{
+            $businesses = Businesses::where('industry_id', $industry_id)->get();
+        }
+        $selected_industry = Industries::where('id', $industry_id)->firstOrFail();
+//        dd($industry);
+
+        $page = 'businesses';
+        $industries = Industries::all();
+        return view('businesses')->with([
+            'page' => $page,
+            'businesses' => $businesses,
+            'industries' => $industries,
+            'selected_industry' => $selected_industry
+        ]);
+    }
+
 }
