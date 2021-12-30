@@ -141,6 +141,7 @@ class ProfileController extends Controller
             'business_location' => $request->business_location,
             'business_description' => $request->business_description,
             'business_brief' => $request->business_brief,
+            'accepted' => 0,
             'user_id' => $id
         ]);
 

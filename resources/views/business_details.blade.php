@@ -69,6 +69,21 @@
         </div>
     </section>
 
+    @if(\Illuminate\Support\Facades\Auth::user() !== null && \Illuminate\Support\Facades\Auth::user()->isAdmin('1'))
+        <section class="py-5">
+            <div class="container">
+                @if($business->accepted == 2) {{-- Business approved --}}
+                    <a href="/businesses/{{ $business->id }}/decline" class="btn btn-danger rounded-pill">Decline</a>
+                @elseif($business->accepted == 1) {{-- Business declined --}}
+                    <a href="/businesses/{{ $business->id }}/approve" class="btn lightColor text-white rounded-pill">Approve</a>
+                @else {{-- Pending approval --}}
+                    <a href="/businesses/{{ $business->id }}/approve" class="btn lightColor text-white rounded-pill">Approve</a>
+                    <a href="/businesses/{{ $business->id }}/decline" class="btn btn-danger rounded-pill">Decline</a>
+                @endif
+            </div>
+        </section>
+    @endif
+
     @if(!empty(json_decode($other_businesses)))
         <!-- Other services by owner -->
         <section class="p-md-5 py-5">
@@ -77,7 +92,7 @@
                 <div class="row g-4">
                     @foreach($other_businesses as $other_business)
                         <div class="col-lg-3 col-md-6">
-                            <div class="card">
+                            <div class="card    ">
                                 <img src="{{ asset('images/businesses/' . $other_business->business_image) }}" alt="{{ $other_business->business_name }}" style="height: 200px;" />
                                 <div class="card-body text-center">
                                     <div class="card-title"><strong>{{ $other_business->business_name }}</strong></div>
@@ -94,12 +109,23 @@
         </section>
     @endif
 
+
     <!-- Back to businesses -->
-    <section class="py-5">
-        <div class="container">
-            <a href="{{ route('businesses') }}" class="btn lightColor text-white"
-            ><i class="bi bi-chevron-left"></i> Back to businesses</a
-            >
-        </div>
-    </section>
+    @if(\Illuminate\Support\Facades\Auth::user() !== null && \Illuminate\Support\Facades\Auth::user()->isAdmin('1'))
+        <section class="py-5">
+            <div class="container">
+                <a href="{{ $page == 'pending' ? route('businesses.pending') : route('businesses.approved') }}" class="btn lightColor text-white"
+                ><i class="bi bi-chevron-left"></i> Back to businesses</a
+                >
+            </div>
+        </section>
+    @else
+        <section class="py-5">
+            <div class="container">
+                <a href="{{ route('businesses') }}" class="btn lightColor text-white"
+                ><i class="bi bi-chevron-left"></i> Back to businesses</a
+                >
+            </div>
+        </section>
+    @endif
 @endsection

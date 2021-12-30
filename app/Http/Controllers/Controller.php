@@ -19,7 +19,10 @@ class Controller extends BaseController
 
     public function index ()
     {
-        $businesses = Businesses::orderBy('id', 'DESC')->take(8)->get();
+        $businesses = Businesses::orderBy('id', 'DESC')
+            ->where('accepted', 2)
+            ->take(8)
+            ->get();
 
         $page = 'home';
         return view('home')->with([
@@ -31,7 +34,7 @@ class Controller extends BaseController
     public function businesses ()
     {
         $page = 'businesses';
-        $businesses = Businesses::all();
+        $businesses = Businesses::where('accepted', 2)->get();
         $industries = Industries::all();
         return view('businesses')->with([
             'page' => $page,
@@ -43,7 +46,10 @@ class Controller extends BaseController
     public function business_details ($id)
     {
         $page = 'businesses';
-        $business = Businesses::where('id', $id)->firstOrFail();
+        $business = Businesses::where([
+            ['id', $id],
+            ['accepted', 2]
+        ])->firstOrFail();
         $owner = $business->user;
         $skills = $owner->skills;
         $industry = Industries::where('id', $business->industry_id)->first()->industry;

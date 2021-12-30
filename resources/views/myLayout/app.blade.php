@@ -57,25 +57,13 @@
 
             <div class="collapse navbar-collapse" id="navMenu">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a href="{{ route('home') }}" class="nav-link {{ $page == 'home' ? 'active' : '' }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('businesses') }}" class="nav-link {{ $page == 'businesses' ? 'active' : '' }}">Businesses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('contact') }}" class="nav-link {{ $page == 'contact' ? 'active' : '' }}">Contact</a>
-                    </li>
-                    @auth
+                    @if(\Illuminate\Support\Facades\Auth::user() !== null && \Illuminate\Support\Facades\Auth::user()->isAdmin('1'))
                         <li class="nav-item">
-                            <a href="{{ route('profile') }}" class="nav-link {{ $page == 'profile' ? 'active' : '' }}">Profile</a>
+                            <a href="{{ route('businesses.pending') }}" class="nav-link {{ $page == 'pending' ? 'active' : '' }}">Pending Businesses</a>
                         </li>
-                    @else
                         <li class="nav-item">
-                            <a href="{{ route('login') }}" class="nav-link">Login</a>
+                            <a href="{{ route('businesses.approved') }}" class="nav-link {{ $page == 'approved' ? 'active' : '' }}">Approved Businesses</a>
                         </li>
-                    @endauth
-                    @auth
                         <li class="nav-item">
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
@@ -85,9 +73,37 @@
                         </li>
                     @else
                         <li class="nav-item">
-                            <a href="{{ route('register') }}" class="nav-link">Register</a>
+                            <a href="{{ route('home') }}" class="nav-link {{ $page == 'home' ? 'active' : '' }}">Home</a>
                         </li>
-                    @endauth
+                        <li class="nav-item">
+                            <a href="{{ route('businesses') }}" class="nav-link {{ $page == 'businesses' ? 'active' : '' }}">Businesses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('contact') }}" class="nav-link {{ $page == 'contact' ? 'active' : '' }}">Contact</a>
+                        </li>
+                        @auth
+                            <li class="nav-item">
+                                <a href="{{ route('profile') }}" class="nav-link {{ $page == 'profile' ? 'active' : '' }}">Profile</a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a href="{{ route('login') }}" class="nav-link">Login</a>
+                            </li>
+                        @endauth
+                        @auth
+                            <li class="nav-item">
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    @method('post')
+                                    <button class="btn nav-link pb-0 pt-1.5">Logout</button>
+                                </form>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a href="{{ route('register') }}" class="nav-link">Register</a>
+                            </li>
+                        @endauth
+                    @endif
 
                 </ul>
             </div>

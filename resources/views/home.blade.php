@@ -97,7 +97,7 @@
         <div class="container">
             <h3 class="mb-4">Recently Added Businesses</h3>
             <div class="row g-4">
-                @foreach($businesses as $business)
+                @forelse($businesses as $business)
                     <div class="col-lg-3 col-md-6">
                         <div class="card">
                             <img src="{{ asset('images/businesses/' . $business->business_image) }}" alt="Business" style="height: 200px;"/>
@@ -110,7 +110,9 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <p class="py-5 lead">No businesses added yet.</p>
+                @endforelse
 
             </div>
         </div>

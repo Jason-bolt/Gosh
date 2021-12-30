@@ -11,7 +11,7 @@ class Businesses extends Model
     use HasFactory;
     use Searchable;
 
-    protected $fillable = ['business_name', 'industry_id', 'business_image', 'business_location', 'business_description', 'business_brief', 'user_id'];
+    protected $fillable = ['business_name', 'industry_id', 'business_image', 'business_location', 'business_description', 'business_brief', 'accepted', 'user_id'];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

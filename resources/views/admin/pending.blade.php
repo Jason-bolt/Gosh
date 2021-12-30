@@ -65,27 +65,4 @@
         </div>
     </section>
 
-{{--    <script>--}}
-{{--        $(document).ready(function () {--}}
-
-{{--            $("#industry").change(function () {--}}
-{{--                const industryId = $(this).val();--}}
-{{--                // console.log($(this).val());--}}
-{{--                $.ajax({--}}
-{{--                    url: "/businesses/industry/" + industryId,--}}
-{{--                    success: function (response)--}}
-{{--                    {--}}
-{{--                        console.log(response.businesses.length);--}}
-{{--                        if (response.businesses.length === 0)--}}
-{{--                        {--}}
-
-{{--                        }--}}
-{{--                    }--}}
-{{--                });--}}
-{{--            });--}}
-
-{{--        });--}}
-{{--    </script>--}}
-
-
 @endsection

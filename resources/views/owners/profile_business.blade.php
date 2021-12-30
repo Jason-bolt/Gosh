@@ -17,12 +17,12 @@
                                 alt="Business"
                             />
                             <p class="h3 my-2">{{ $business->business_name }}</p>
-                            <!-- Business description -->
-                            <h6 class="mt-4"><u>Business Description</u></h6>
-                            <p>{{ $business->business_description }}</p>
                             <!-- Business brief -->
                             <h6 class="mt-4"><u>Business Brief</u></h6>
                             <p>{{ $business->business_brief }}</p>
+                            <!-- Business description -->
+                            <h6 class="mt-4"><u>Business Description</u></h6>
+                            <p>{{ $business->business_description }}</p>
                             <!-- Business industry -->
                             <p class="text-capitalize"><strong>Industry:</strong> {{ $business_industry->industry }}</p>
                             <!-- Business location -->
@@ -41,8 +41,17 @@
 
                             {{-- Status of business --}}
                             <div class="my-5">
-                                <p class="text-secondary"><strong>Business is pending acceptance before publishing.</strong></p>
-                                <form action="/profile/my_business/{{ $business->id }}" method="POST">
+                                @switch($business->accepted)
+                                @case(2)
+                                    <p class="colorLight"><strong>Business has been approved and published.</strong></p>
+                                @break
+                                @case(1)
+                                    <p class="text-danger"><strong>Business has been rejected. Please check business content.</strong></p>
+                                @break
+                                @default
+                                    <p class="text-secondary"><strong>Business is pending approval.</strong></p>
+                                @endswitch
+                                <form action="/profile/my_business/{{ $business->id }}" method="POST" onclick="return confirm('Delete business!')">
                                     @csrf
                                     @method('delete')
                                     <button class="btn btn-danger text-white rounded-pill">Delete <i class="bi bi-trash"></i></button>

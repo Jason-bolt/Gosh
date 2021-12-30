@@ -22,7 +22,7 @@
                                     <div class="card-body text-center">
                                         <div class="card-title"><strong>{{ $business->business_name }}</strong></div>
                                         <p class="card-text">
-                                            {{ substr($business->business_brief, 0, 50) . '...' }}
+                                            {{ substr($business->business_brief, 0, 40) . '...' }}
                                         </p>
                                         <a href="/profile/my_business/{{ $business['id'] }}" class="lightColor text-white btn rounded-pill"
                                         >View details <i class="bi bi-chevron-right"></i></a>
