@@ -131,9 +131,12 @@ class Controller extends BaseController
 
         if ($industry_id == 1)
         {
-            $businesses = Businesses::all();
+            $businesses = Businesses::where('accepted', 2)->get();
         }else{
-            $businesses = Businesses::where('industry_id', $industry_id)->get();
+            $businesses = Businesses::where([
+                ['industry_id', $industry_id],
+                ['accepted', 2]
+            ])->get();
         }
         $selected_industry = Industries::where('id', $industry_id)->firstOrFail();
 //        dd($industry);

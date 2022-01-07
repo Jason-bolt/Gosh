@@ -40,44 +40,36 @@ Route::get('/pageNotFound', function ()
 //    return view('dashboard');
 //})->middleware(['auth'])->name('dashboard');
 
-// Owner routes
-Route::get('/profile', [ProfileController::class, 'index'])
-    ->middleware(['auth'])
-    ->name('profile');
-Route::put('/edit_profile', [ProfileController::class, 'edit'])
-    ->middleware(['auth'])
-    ->name('edit_profile');
-Route::post('/clear_image', [ProfileController::class, 'clear_image'])
-    ->middleware(['auth'])
-    ->name('clear_image');
-Route::post('/add_skill', [ProfileController::class, 'add_skill'])
-    ->middleware(['auth'])
-    ->name('add_skill');
-Route::delete('/delete_skill/{id}', [ProfileController::class, 'delete_skill'])
-    ->middleware(['auth'])
-    ->name('delete_skill');
-Route::post('/add_business', [ProfileController::class, 'add_business'])
-    ->middleware(['auth'])
-    ->name('add_business');
-Route::get('/profile/my_business/{id}', [ProfileController::class, 'profile_business_details'])
-    ->middleware(['auth']);
-Route::put('/profile/my_business/{id}', [ProfileController::class, 'update_business'])
-    ->middleware(['auth']);
-Route::delete('/profile/my_business/{id}', [ProfileController::class, 'delete_business'])
-    ->middleware(['auth']);
+// PROTECTED ROUTES
+Route::middleware(['auth'])->group(function () {
+    // Owner routes
+    Route::get('/profile', [ProfileController::class, 'index'])
+        ->name('profile');
+    Route::put('/edit_profile', [ProfileController::class, 'edit'])
+        ->name('edit_profile');
+    Route::post('/clear_image', [ProfileController::class, 'clear_image'])
+        ->name('clear_image');
+
+    Route::post('/add_skill', [ProfileController::class, 'add_skill'])
+        ->name('add_skill');
+    Route::delete('/delete_skill/{id}', [ProfileController::class, 'delete_skill'])
+        ->name('delete_skill');
+    Route::post('/add_business', [ProfileController::class, 'add_business'])
+        ->name('add_business');
+    Route::get('/profile/my_business/{id}', [ProfileController::class, 'profile_business_details']);
+    Route::put('/profile/my_business/{id}', [ProfileController::class, 'update_business']);
+    Route::delete('/profile/my_business/{id}', [ProfileController::class, 'delete_business']);
 
 
-// Admin routes
-Route::get('/admin/businesses/pending', [AdminController::class, 'pending'])
-    ->middleware(['auth'])
-    ->name('businesses.pending');
-Route::get('/admin/businesses/approved', [AdminController::class, 'approved'])
-    ->middleware(['auth'])
-    ->name('businesses.approved');
-Route::get('/businesses/{id}/approve', [AdminController::class, 'approve_business'])
-    ->middleware(['auth']);
-Route::get('/businesses/{id}/decline', [AdminController::class, 'decline_business'])
-    ->middleware(['auth']);
+    // Admin routes
+    Route::get('/admin/businesses/pending', [AdminController::class, 'pending'])
+        ->name('businesses.pending');
+    Route::get('/admin/businesses/approved', [AdminController::class, 'approved'])
+        ->name('businesses.approved');
+    Route::get('/businesses/{id}/approve', [AdminController::class, 'approve_business']);
+    Route::get('/businesses/{id}/decline', [AdminController::class, 'decline_business']);
+});
+
 
 
 
