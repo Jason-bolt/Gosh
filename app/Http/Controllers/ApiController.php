@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Mail;
 
 class ApiController extends Controller
 {
+    public function api_recent_businesses()
+    {
+        return Businesses::orderBy('id', 'DESC')
+            ->where('accepted', 2)
+            ->take(8)
+            ->get();
+    }
+
     public function api_businesses()
     {
         return Businesses::where('accepted', 2)->get();
@@ -75,5 +83,19 @@ class ApiController extends Controller
         return response([
             'message' => 'Message could not be sent'
         ]);
+    }
+
+    public function api_search (Request $query)
+    {
+        $search_query = $query->search_query;
+        $businesses = Businesses::where('business_name', 'LIKE', '%' . $search_query . '%')->get();
+        return response([
+            'businesses' => $businesses,
+        ]);
+    }
+
+    public function industries ()
+    {
+        return Industries::all();
     }
 }

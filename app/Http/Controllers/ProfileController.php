@@ -13,7 +13,6 @@ class ProfileController extends Controller
 {
     public function index ()
     {
-
         $user = Auth::user();
         $id = Auth::id();
 
