@@ -151,17 +151,17 @@
         <div class="row mx-auto">
             <div class="col-md-5 mb-3">
                 <h4>Helpful Links</h4>
-                <a href="#" style="color: #7f599b">Terms and conditions</a>
+                <a href="{{ route('404Page') }}" style="color: #debbff">Terms and conditions</a>
                 <br />
-                <a href="#" style="color: #7f599b">FAQs</a>
+                <a href="{{ route('404Page') }}" style="color: #debbff">FAQs</a>
             </div>
             <div class="col-md-5">
                 <h4>Contact Info</h4>
-                <span style="color: #7f599b"
+                <span style="color: #debbff"
                 ><i class="bi bi-telephone-fill"></i> +233209544918</span
                 >
                 <br />
-                <span style="color: #7f599b"
+                <span style="color: #debbff"
                 ><i class="bi bi-envelope-fill"></i> info@gotskillshub.com</span
                 >
             </div>
